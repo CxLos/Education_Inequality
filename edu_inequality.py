@@ -5,37 +5,21 @@ import os
 import sys
 
 # ------ Python Imports ------ #
-# import csv, sqlite3
 import numpy as np 
 import pandas as pd 
-import seaborn as sns 
 import plotly.express as px
-import matplotlib.pyplot as plt 
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
 import plotly.express as px
-from datetime import datetime
-from collections import Counter
 
 # ------ OpenAI ------ #
 from openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
 
-# ------ Machine Learning Imports ------ #
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, jaccard_score, confusion_matrix, classification_report, ConfusionMatrixDisplay, roc_curve, auc
-# from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-# from sklearn.pipeline import Pipeline
-
 # ------ Dash Imports ------ #
 import dash
 from dash import dcc, html
-# from dash.dependencies import Input, Output, State
 
 # -------------------------------------- DATA ------------------------------------------- #
 
@@ -473,7 +457,7 @@ def update_explanation(n_clicks, selected_attribute):
 print(f"Serving Flask app '{current_file}'! 🚀")
 
 if __name__ == '__main__':
-    app.run_server(debug=
+    app.run(debug=
                     True)
                     # False)
 # =================================== Updated Database ================================= #
@@ -552,10 +536,14 @@ if __name__ == '__main__':
 # which python # confirm you are using global or venv python
 
 # Update PIP Setup Tools:
+# pip freeze > requirements.txt # create requirements file
+# pip install -r requirements.txt # install dependencies
+
+# python.exe -m pip install --upgrade pip #upgrade pip
 # pip install --upgrade pip setuptools
 
-# Install all dependencies in the requirements file:
-# pip install -r requirements.txt
+# Add git to path if accidentally removed:
+# export PATH="/c/Program Files/Git/cmd:/c/Program Files/Git/usr/bin:$PATH" 
 
 # Check dependency tree:
 # pipdeptree
