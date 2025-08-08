@@ -126,6 +126,22 @@ df.rename(columns={col: col.replace('_', ' ').title() for col in df.columns}, in
 missing = df.isnull().sum()
 # print('Columns with missing values before fillna: \n', missing[missing > 0])
 
+# ======================== Heatmap ======================== #
+
+correlation_matrix = df.select_dtypes(include=np.number).corr()
+
+heatmap = ff.create_annotated_heatmap(
+    z=correlation_matrix.values,
+    x=list(correlation_matrix.columns),
+    y=list(correlation_matrix.index),
+    annotation_text=correlation_matrix.round(2).astype(str).values,
+    colorscale='Viridis',
+    showscale=True,
+    colorbar=dict(title='Correlation Coefficient'),
+    hoverinfo='text',
+    text=correlation_matrix.round(2).astype(str).values
+)
+
 # # ========================== DataFrame Table ========================== #
 
 df_table = go.Figure(data=[go.Table(
@@ -150,7 +166,7 @@ df_table = go.Figure(data=[go.Table(
 
 df_table.update_layout(
     margin=dict(l=50, r=50, t=30, b=40),  # Remove margins
-    height=400,
+    # height=400,
     # width=1500,  # Set a smaller width to make columns thinner
     paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
     plot_bgcolor='rgba(0,0,0,0)'  # Transparent plot area
@@ -185,30 +201,34 @@ app.layout = html.Div(
         # ----------------------- Data Table ----------------------- #
         
         html.Div(
-            className='row0',
+            className='data-section',
             children=[
+                
                 html.Div(
-                    className='table',
+                    className='data-row',
                     children=[
-                        html.H1(
-                            className='table-title',
-                            children='Education Inequality Data Table'
+                        html.Div(
+                            className='data-title',
+                            children=[
+                                html.H1(
+                                    className='table-title',
+                                    children='Education Inequality Data Table'
+                                )
+                            ]
+                        ),
+                        html.Div(
+                            className='data-table',
+                            children=[
+                                dcc.Graph(
+                                    className='data',
+                                    figure=df_table
+                                )
+                            ]
                         )
                     ]
                 ),
-                html.Div(
-                    className='table2',
-                    children=[
-                        dcc.Graph(
-                            className='data',
-                            figure=df_table
-                        )
-                    ]
-                )
             ]
         ),
-        
-        # ----------------------- Graphs ----------------------- #
         
         # html.Div(
         #     className='row1',
@@ -216,13 +236,17 @@ app.layout = html.Div(
         #         html.Div(
         #             className='graph1',
         #             children=[
-        #                 dcc.Graph()
+        #                 dcc.Graph(
+        #                     figure=heatmap
+        #                 )
         #             ]
         #         ),
         #         html.Div(
         #             className='graph2',
         #             children=[
-        #                 dcc.Graph()
+        #                 dcc.Graph(
+        #                     # figure=
+        #                 )
         #             ]
         #         )
         #     ]
@@ -233,7 +257,10 @@ app.layout = html.Div(
         html.Div(
             className='gpt-section',
             children=[
-                html.H2("Explore Attribute Impact on Dropout Rate", className='title2'),
+                html.Div(children=[]),
+                html.H2(
+                    "Explore Attribute Impact on Dropout Rate",
+                    className='title2'),
                 dcc.Dropdown(
                     className='dropdown',
                     id='attribute-dropdown',
@@ -241,22 +268,41 @@ app.layout = html.Div(
                     value='',
                     clearable=False
                 ),
-                
-                html.Button('Explain Impact', 
-                            id='explain-button',
-                            className='explain',
-                            n_clicks=0),
-                
+                html.Button(
+                    'Explain Impact', 
+                    id='explain-button',
+                    className='explain',
+                    n_clicks=0
+                ),
+                # -------------------------------------------------------
                 html.Div(
-                    className='graph33', 
-                    id='gpt-response', 
-                    style={'whiteSpace': 'pre-line', 'marginTop': '20px'}
-                    ),
-                dcc.Graph(
-                    className='gpt-graph',
-                    id='attribute-vs-price-graph', 
-                    # style={'marginTop': '40px'}
-                    ),
+                    className='gpt-explanation',
+                    children=[
+                        
+                        html.Div(
+                            className='gpt-response-box',
+                            children=[
+                                html.Div(
+                                    className='gpt-response', 
+                                    id='gpt-response', 
+                                    # style={'whiteSpace': 'pre-line', 'marginTop': '20px'}
+                                ),
+                            ],
+                        ),
+                        # -------------------------------------------------------
+                        html.Div(
+                            className='gpt-graph-box',
+                            children=[
+                                dcc.Graph(
+                                    className='gpt-graph',
+                                    id='attribute-vs-dropout-graph', 
+                                    # style={'marginTop': '40px'}
+                                ),
+                            ]
+                        ),
+ 
+                    ]
+                ),
             ]
         ),
         
@@ -266,66 +312,103 @@ html.Div(
     children=[
         html.H2("📘 README"),
 
-        html.H4("Description"),
+        html.H4("📝 Description"),
         html.P(
-            "This project leverages machine learning to predict the likelihood of chronic kidney disease (CKD) using a clinical dataset. "
-            "The goal is to assist in early detection of CKD by analyzing relevant patient biomarkers and visualizing key insights through an "
-            "interactive Plotly/Dash dashboard. The project includes preprocessing, training a model, evaluating performance, and highlighting "
-            "feature importance."
+            "This project explores factors contributing to school dropout rates across the United States using a dataset containing school-level indicators such as funding, test scores, student-teacher ratios, and more. This interactive dashboard built with Plotly Dash enables users to visualize, filter, and interpret patterns related to education inequality and student retention."
         ),
 
         html.H4("📦 Installation"),
         html.P("To run this project locally, follow these steps:"),
         html.Pre([
             html.Code(
-                "git clone https://github.com/CxLos/Education Inequality\n"
-                "cd Kidney_Disease_Outcome\n"
+                "git clone https://github.com/CxLos/Education_Inequality\n"
+                "cd Education_Inequality\n"
                 "pip install -r requirements.txt"
             )
         ]),
 
+        html.H4("▶️ Usage"),
+        html.P(
+            "This is an interactive Plotly/Dash dashboard. You can explore different aspects of the data, including class distribution, prediction outcomes, and feature importance. Hover over charts for tooltips and use zoom to inspect data more closely."
+        ),
+        html.Pre([
+            html.Code("python edu_inequality.py")
+        ]),
+
         html.H4("🧪 Methodology"),
+        html.P("The dataset was sourced from Kaggle. It contains over 1,000 schools with the following features:"),
         html.Ul([
-            html.Li("Dataset sourced from Kaggle with 2,300+ patients' clinical measurements."),
-            html.Li("Preprocessing included handling missing values, outlier treatment, categorical encoding, and normalization."),
-            html.Li("Models trained: Logistic Regression, Decision Tree, and Random Forest."),
-            html.Li("Evaluated using accuracy, precision, recall, F1-score."),
-            html.Li("Feature importance used to understand drivers of CKD prediction.")
+            html.Li("Funding Per Student (USD)"),
+            html.Li("Average Test Score (%)"),
+            html.Li("Student-Teacher Ratio"),
+            html.Li("Percent Low-Income Students"),
+            html.Li("Percent Minority Students"),
+            html.Li("Internet Access (%)"),
+            html.Li("Dropout Rate (%)"),
+        ]),
+        html.P("Preprocessing included:"),
+        html.Ul([
+            html.Li("Cleaning missing or inconsistent data"),
+            html.Li("Standardizing numerical features"),
+            html.Li("Encoding categorical variables like school type and grade level"),
+        ]),
+        html.P("Modeling included:"),
+        html.Ul([
+            html.Li("Exploratory Data Analysis (EDA) with visualizations"),
+            html.Li("Correlation heatmaps and regression modeling to identify key drivers of dropout rates"),
         ]),
 
         html.H4("🔍 Insights"),
         html.Ul([
-            html.Li("Random Forest achieved the highest overall performance in accuracy and F1 score, indicating a strong balance between precision and recall."),
-            html.Li("Decision Tree showed decent performance but slightly lagged behind Random Forest."),
-            html.Li("Logistic Regression had the lowest scores across most metrics, making it the least effective model in this comparison.")
+            html.Li("Schools with higher funding per student often report lower dropout rates."),
+            html.Li("Dropout rates are significantly higher in schools with a greater percentage of low-income or minority students."),
+            html.Li("Better internet access is associated with improved academic performance and retention.")
+        ]),
+
+        html.H4("🌟 Feature Importance"),
+        html.Ul([
+            html.Li("1. Percent Low-Income"),
+            html.Li("2. Funding Per Student"),
+            html.Li("3. Student-Teacher Ratio"),
+            html.Li("4. Internet Access Percent")
         ]),
 
         html.H4("✅ Conclusion"),
         html.P(
-            "This project demonstrates the application of machine learning for health diagnostics. "
-            "By combining statistical insights with interactive visualizations, it offers a powerful tool for analyzing kidney disease outcomes. "
-            "Future improvements could include using ensemble models or deploying the app with live patient data integration."
+            "This dashboard provides a comprehensive overview of educational disparities and their impact on student retention. The findings support the importance of equitable resource allocation to improve student outcomes and reduce dropout rates across U.S. schools."
         ),
 
         html.H4("📄 License"),
         html.P("MIT License © 2025 CxLos"),
-html.Code(
-    "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. \n\n"
-    "THE SOFTWARE IS PROVIDED \"AS IS\""
-    "WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-)
+        html.Code(
+            "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), "
+            "to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, "
+            "and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: \n\n"
+            "The above copyright notice and this permission notice shall be included in "
+            "all copies or substantial portions of the Software.\n\n"
+            "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR "
+            "IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS "
+            "FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR "
+            "COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN "
+            "AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH "
+            "THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+        )
     ]
 )
 
-    ]
-)
+
+            ]
+        )
 
 # --------------- Callback ----------------- #
 
 @app.callback(
-    [dash.dependencies.Output('gpt-response', 'children'),
-     dash.dependencies.Output('attribute-vs-price-graph', 'figure')],
-    [dash.dependencies.Input('explain-button', 'n_clicks')],
+    [dash.dependencies.Output(
+        'gpt-response', #ID of the div where the response will be displayed
+        'children'), # the content of the div
+     dash.dependencies.Output('attribute-vs-dropout-graph', 'figure')],
+    [dash.dependencies.Input('explain-button', 
+                             'n_clicks')], # Input from the button click
     [dash.dependencies.State('attribute-dropdown', 'value')]
 )
 
@@ -336,8 +419,7 @@ def update_explanation(n_clicks, selected_attribute):
     # Ask the LLM how the selected attribute affects dropout rate
     messages = [
         {"role": "system", "content": "You're a data analyst."},
-        {"role": "user", "content": f"Explain how {selected_attribute} affects high school dropout rates."}
-    ]
+        {"role": "user", "content": f"Explain how {selected_attribute} affects high school dropout rates."}]
 
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -361,7 +443,8 @@ def update_explanation(n_clicks, selected_attribute):
                     'Dropout Rate Percent': 'High School Dropout Rate'
                 }
             ).update_layout(
-                height=700,
+                title_x=0.5  # Center the title
+                # height=700,
                 # width=800,
             )
         else:
@@ -374,6 +457,10 @@ def update_explanation(n_clicks, selected_attribute):
                     selected_attribute: selected_attribute.replace('_', ' '),
                     'Dropout Rate Percent': 'High School Dropout Rate'
                 }
+            ).update_layout(
+                title_x=0.5  # Center the title
+                # height=700,
+                # width=800,
             )
     else:
         fig = {}
@@ -493,8 +580,8 @@ if __name__ == '__main__':
 
 # Heroku Setup:
 # heroku login
-# heroku create kidney-disease-outcome
-# heroku git:remote -a kidney-disease-outcome
+# heroku create education-inequality-llm
+# heroku git:remote -a education-inequality-llm
 # git push heroku main
 
 # Clear Heroku Cache:
