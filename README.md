@@ -81,11 +81,11 @@ To run this project locally, follow these steps:
 
 ### 🔍 Insights
 
-    - Schools with higher funding per student often report lower dropout rates.
+- Schools with higher funding per student often report lower dropout rates.
 
-    - Dropout rates are significantly higher in schools with a greater percentage of low-income or minority students.
+- Dropout rates are significantly higher in schools with a greater percentage of low-income or minority students.
 
-    - Better internet access is associated with improved academic performance and retention.
+- Better internet access is associated with improved academic performance and retention.
 
 ### 🌟 Feature Importance
 
