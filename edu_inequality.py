@@ -430,6 +430,12 @@ def update_explanation(n_clicks, selected_attribute):
                 title_x=0.5  # Center the title
                 # height=700,
                 # width=800,
+            ).update_traces(
+                # textposition='auto',
+                hovertemplate=        
+                    f"{selected_attribute}: " 
+                    "<b>%{x}</b><br>"                                   
+                    "Dropout Rate: <b>%{y:.2f}</b><extra></extra>"    
             )
         else:
             fig = px.box(
@@ -445,7 +451,12 @@ def update_explanation(n_clicks, selected_attribute):
                 title_x=0.5  # Center the title
                 # height=700,
                 # width=800,
-            )
+            ).update_traces(
+        hovertemplate=(
+            f"{selected_attribute}: <b>%{{x}}</b><br>"
+            "Dropout Rate: <b>%{y:.2%}</b><extra></extra>"
+        )
+    )
     else:
         fig = {}
 

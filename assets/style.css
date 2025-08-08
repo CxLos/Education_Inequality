@@ -140,6 +140,10 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+.dropdown:hover {
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
 .btn {
   display: inline-block;
   text-align: center;
