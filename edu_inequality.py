@@ -542,17 +542,14 @@ if __name__ == '__main__':
 # taskkill /PID 24772 /F
 # npx kill-port 8050
 
-# ---------------------------------------------- Host Application -------------------------------------------
+# -------------------- Host Application ------------------------ #
 
 # 1. pip freeze > requirements.txt
-# 2. add this to procfile: 'web: gunicorn kidney_disease:server'
-# 3. heroku login
-# 4. heroku create
-# 5. git push heroku main
+# 2. add this to procfile: 'web: gunicorn app_name:server'
 
-# Create venv 
-# virtualenv venv 
-# source venv/bin/activate # uses the virtualenv
+# python -m venv .venv # create venv
+# source .venv/Scripts/activate # activate it
+# which python # confirm you are using global or venv python
 
 # Update PIP Setup Tools:
 # pip install --upgrade pip setuptools
@@ -574,7 +571,7 @@ if __name__ == '__main__':
 # Add:
 # gunicorn==22.0.0
 
-# ----------------------------------------------------
+# ------------ Heroku ---------------- #
 
 # Name must start with a letter, end with a letter or digit and can only contain lowercase letters, digits, and dashes.
 
@@ -591,24 +588,6 @@ if __name__ == '__main__':
 # Set buildpack for heroku
 # heroku buildpacks:set heroku/python
 
-# Heatmap Colorscale colors -----------------------------------------------------------------------------
+# --------- Set environment variables ------------ #
 
-#   ['aggrnyl', 'agsunset', 'algae', 'amp', 'armyrose', 'balance',
-            #  'blackbody', 'bluered', 'blues', 'blugrn', 'bluyl', 'brbg',
-            #  'brwnyl', 'bugn', 'bupu', 'burg', 'burgyl', 'cividis', 'curl',
-            #  'darkmint', 'deep', 'delta', 'dense', 'earth', 'edge', 'electric',
-            #  'emrld', 'fall', 'geyser', 'gnbu', 'gray', 'greens', 'greys',
-            #  'haline', 'hot', 'hsv', 'ice', 'icefire', 'inferno', 'jet',
-            #  'magenta', 'magma', 'matter', 'mint', 'mrybm', 'mygbm', 'oranges',
-            #  'orrd', 'oryel', 'oxy', 'peach', 'phase', 'picnic', 'pinkyl',
-            #  'piyg', 'plasma', 'plotly3', 'portland', 'prgn', 'pubu', 'pubugn',
-            #  'puor', 'purd', 'purp', 'purples', 'purpor', 'rainbow', 'rdbu',
-            #  'rdgy', 'rdpu', 'rdylbu', 'rdylgn', 'redor', 'reds', 'solar',
-            #  'spectral', 'speed', 'sunset', 'sunsetdark', 'teal', 'tealgrn',
-            #  'tealrose', 'tempo', 'temps', 'thermal', 'tropic', 'turbid',
-            #  'turbo', 'twilight', 'viridis', 'ylgn', 'ylgnbu', 'ylorbr',
-            #  'ylorrd'].
 
-# rm -rf ~$bmhc_data_2024_cleaned.xlsx
-# rm -rf ~$bmhc_data_2024.xlsx
-# rm -rf ~$bmhc_q4_2024_cleaned2.xlsx
