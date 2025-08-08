@@ -298,7 +298,7 @@ html.Div(
 
         html.H4("📝 Description"),
         html.P(
-            "This project explores factors contributing to school dropout rates across the United States using a dataset containing school-level indicators such as funding, test scores, student-teacher ratios, and more. This interactive dashboard built with Plotly Dash enables users to visualize, filter, and interpret patterns related to education inequality and student retention."
+            "This AI-driven project explores factors contributing to school dropout rates across the United States using a dataset containing school-level indicators such as funding, test scores, student-teacher ratios, and more. Built with Plotly Dash, this interactive dashboard utilizes a large language model (LLM) to help users interpret complex patterns in education inequality and student retention through dynamically generated visualizations and natural language insights."
         ),
 
         html.H4("📦 Installation"),
@@ -568,6 +568,8 @@ if __name__ == '__main__':
 # heroku create education-inequality-llm
 # heroku git:remote -a education-inequality-llm
 # git push heroku main
+
+# heroku config:set API_KEY=your_actual_key_here
 
 # Clear Heroku Cache:
 # heroku plugins:install heroku-repo

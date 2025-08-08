@@ -2,7 +2,7 @@
 
 ## 📝 Description
 
-This project explores factors contributing to school dropout rates across the United States using a dataset containing school-level indicators such as funding, test scores, student-teacher ratios, and more. This interactive dashboard built with Plotly Dash enables users to visualize, filter, and interpret patterns related to education inequality and student retention.
+This AI-driven project explores factors contributing to school dropout rates across the United States using a dataset containing school-level indicators such as funding, test scores, student-teacher ratios, and more. Built with Plotly Dash, this interactive dashboard utilizes a large language model (LLM) to help users interpret complex patterns in education inequality and student retention through dynamically generated visualizations and natural language insights.
 
 ## 📂 Table of Contents
 
