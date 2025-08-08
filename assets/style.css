@@ -140,8 +140,11 @@
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
-.dropdown:hover {
-  cursor: pointer; /* Change cursor to pointer on hover */
+.dropdown, 
+.dropdown .Select-control, 
+.dropdown .Select-placeholder, 
+.dropdown .Select-input {
+  cursor: pointer;
 }
 
 .btn {

@@ -435,7 +435,7 @@ def update_explanation(n_clicks, selected_attribute):
                 hovertemplate=        
                     f"{selected_attribute}: " 
                     "<b>%{x}</b><br>"                                   
-                    "Dropout Rate: <b>%{y:.2f}</b><extra></extra>"    
+                    "Dropout Rate: <b>%{y:.2f}%</b><extra></extra>"    
             )
         else:
             fig = px.box(
