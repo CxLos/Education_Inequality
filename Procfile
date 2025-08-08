@@ -1,1 +1,1 @@
-web: gunicorn kidney_disease:server
+web: gunicorn edu_inequality:server
