@@ -258,6 +258,21 @@ app.layout = html.Div(
                     className='explain',
                     n_clicks=0
                 ),
+                html.Div(
+                    children=[
+                        dcc.Loading(
+                            className='loading-box',
+                            id='loading-spinner',
+                            type='circle',
+                            children=html.Div(
+                                className='loading',
+                                id='loading-output', 
+                                # style={'height': '10px', 'marginTop': '10px'}
+                            )
+                ),    
+                    ],    
+                ),
+
                 # -------------------------------------------------------
                 html.Div(
                     className='gpt-explanation',
@@ -390,7 +405,10 @@ html.Div(
     [dash.dependencies.Output(
         'gpt-response', #ID of the div where the response will be displayed
         'children'), # the content of the div
-     dash.dependencies.Output('attribute-vs-dropout-graph', 'figure')],
+     dash.dependencies.Output('attribute-vs-dropout-graph', 'figure'),
+     dash.dependencies.Output('loading-output', 'children')
+     ],
+    
     [dash.dependencies.Input('explain-button', 
                              'n_clicks')], # Input from the button click
     [dash.dependencies.State('attribute-dropdown', 'value')]
@@ -398,7 +416,7 @@ html.Div(
 
 def update_explanation(n_clicks, selected_attribute):
     if n_clicks == 0:
-        return "", {}
+        return "", {}, ""  # No clicks yet, return empty response
 
     # Ask the LLM how the selected attribute affects dropout rate
     messages = [
@@ -460,7 +478,7 @@ def update_explanation(n_clicks, selected_attribute):
     else:
         fig = {}
 
-    return explanation, fig
+    return explanation, fig, ""
 
 
 # ---------------------- End ------------------------- #

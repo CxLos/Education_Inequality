@@ -183,6 +183,18 @@
   transform: translate(0, 3px); /* Move the button 10 pixels down on hover */
 }
 
+.loading {
+  height: 10px;
+  margin: 25px 0px 5px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+/* Or smaller */
+#loading-spinner .dash-spinner {
+    width: 30px !important;
+    height: 30px !important;
+}
+
 .gpt-explanation {
   display:flex;
   flex-direction: row;
