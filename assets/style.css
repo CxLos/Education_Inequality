@@ -189,10 +189,14 @@
   padding: 0px 0px 0px 0px;
 }
 
-/* Or smaller */
 #loading-spinner .dash-spinner {
     width: 30px !important;
     height: 30px !important;
+}
+
+#loading-spinner .dash-spinner svg circle {
+  stroke: red !important;
+  stroke-opacity: 1 !important;
 }
 
 .gpt-explanation {
@@ -269,6 +273,13 @@
 
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 18px;
+}
+
+pre {
+  white-space: pre-wrap;   /* Wrap long lines */
+  word-wrap: break-word;   /* Break words if needed */
+  overflow-x: auto;        /* Show scrollbar if still too wide */
+  max-width: 100%;         /* Don't exceed parent width */
 }
 
   /* =================================== */
