@@ -169,13 +169,14 @@ app.layout = html.Div(
             className='divv',
             children=[
                 html.H1('Education Inequality LLM', className='title'),
+                html.H1('with OpenAI Api', className='title2'),
                 html.Div(
                     className='btn-box',
                     children=[
                         html.A(
                             'Repo',
                             href='https://github.com/CxLos/Education_Inequality',
-                            className='btn'
+                            className='repo-btn'
                         )
                     ]
                 )
