@@ -1,5 +1,9 @@
 # 📚 Education Inequality: Exploring School Dropout Rates
 
+![CI](https://github.com/CxLos/Education_Inequality/actions/workflows/tests.yml/badge.svg)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+![Docker](https://img.shields.io/badge/docker-cxlos%2Feducation__inequality-blue)
+
 ## 📝 Description
 
 This AI-driven project explores factors contributing to school dropout rates across the United States using a dataset containing school-level indicators such as funding, test scores, student-teacher ratios, and more. Built with Plotly Dash, this interactive dashboard utilizes a large language model (LLM) to help users interpret complex patterns in education inequality and student retention through dynamically generated visualizations and natural language insights.
@@ -25,76 +29,74 @@ To run this project locally, follow these steps:
     ```bash
     cd Education_Inequality
     ```
-3. Install the required dependencies:
+3. Create a `.env` file with your OpenAI API key:
+    ```bash
+    cp .env.example .env
+    # then edit .env and set OPENAI_API_KEY
+    ```
+4. Install the required dependencies:
     ```bash
     pip install -r requirements.txt
     ```
 
 ## ▶️ Usage
 
-- This is an interactive Plotly/Dash dashboard. You can explore different aspects of the data, including class distribution, prediction outcomes, and feature importance. Hover over charts for tooltips and use zoom to inspect data more closely.
+- This is an interactive Plotly/Dash dashboard. Select an attribute from the dropdown and click **Explain Impact** to generate an AI-powered analysis of its relationship with high school dropout rates.
 
 - To launch the dashboard locally:
     ```bash
-    python edu_inequality.py
+    python app/edu_inequality.py
     ```
 
-- Or access the live version here:  
-  🌐 [Education Inequality Dashboard]()
-
-![Preview](./screenshots/224521.png)
+- To run the full test suite with coverage:
+    ```bash
+    pytest
+    ```
 
 ## 🧪 Methodology
 
-- Dataset: The dataset was sourced from Kaggle. It contains over 1,000 schools with the following features:
+### Dataset
 
-    - Funding Per Student (USD)
+Sourced from Kaggle — over 1,000 U.S. schools with the following features:
 
-    - Average Test Score (%)
+- Funding Per Student (USD)
+- Average Test Score (%)
+- Student-Teacher Ratio
+- Percent Low-Income Students
+- Percent Minority Students
+- Internet Access (%)
+- Dropout Rate (%)
 
-    - Student-Teacher Ratio
+### Preprocessing
 
-    - Percent Low-Income Students
+- Cleaned missing or inconsistent data
+- Standardized numerical features
+- Encoded categorical variables like school type and grade level
 
-    - Percent Minority Students
+### AI Summarization
 
-    - Internet Access (%)
+- On demand, the dashboard calls **OpenAI GPT-3.5-turbo** via a lazy-initialized client (`_get_client()`) to explain how a selected attribute affects dropout rates.
+- Results are rendered as a natural-language explanation alongside a scatter or box plot.
 
-    - Dropout Rate (%), among others
+### Testing & CI/CD
 
-- **Preprocessing**:
-
-    - Cleaned missing or inconsistent data
-
-    - Standardized numerical features
-
-    - Encoded categorical variables like school type and grade level
-
-- **Modeling**:
-
-    - Exploratory Data Analysis (EDA) with visualizations
-
-    - Correlation heatmaps and regression modeling to identify key drivers of dropout rates
+- Unit, integration, and e2e tests with **100% code coverage**.
+- GitHub Actions pipeline: `test → security (Trivy) → deploy (Docker Hub)`.
+- Docker image published to `cxlos/education_inequality` on every merge to `main`.
 
 ## Results
-
 
 ### 🔍 Insights
 
 - Schools with higher funding per student often report lower dropout rates.
-
 - Dropout rates are significantly higher in schools with a greater percentage of low-income or minority students.
-
 - Better internet access is associated with improved academic performance and retention.
 
 ### 🌟 Feature Importance
 
 1. Percent Low-Income
-
 2. Funding Per Student
-
 3. Student-Teacher Ratio
-
 4. Internet Access Percent
 
 ## ✅ Conclusion

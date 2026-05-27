@@ -1,1 +1,1 @@
-web: gunicorn edu_inequality:server
+web: gunicorn app.edu_inequality:server --workers=1

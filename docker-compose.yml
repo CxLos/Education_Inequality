@@ -1,0 +1,15 @@
+# ===========================================
+# Docker Compose Configuration File
+# ===========================================
+
+services:
+  web:
+    build: .
+    container_name: education_inequality
+    ports:
+      - "8050:8050"
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    command: gunicorn app.edu_inequality:server --workers=1 --bind=0.0.0.0:8050

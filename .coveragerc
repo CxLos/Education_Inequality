@@ -1,0 +1,3 @@
+[run]
+omit =
+    edu_inequality.py
